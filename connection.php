@@ -1,6 +1,6 @@
 <?php
 
-$servername = "localhost:3307"; // Replace with your server name
+$servername = "localhost:3306"; // Replace with your server name
 $username = "root"; // Replace with your username
 $password = ""; // Replace with your password
 $database = "productiondb"; // Replace with your database name
