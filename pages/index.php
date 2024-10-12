@@ -21,7 +21,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $_SESSION['username'] = $username;
             $_SESSION['role'] = $row['role']; // Assuming 'department' is a column in your 'users' table
             // Redirect to a success page or perform other actions
-            header("Location: home.php");
+            header("Location: dashboard.php");
             exit;
         } else {
             echo "Invalid username or password";
@@ -40,7 +40,7 @@ $conn->close();
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="css/login_styles.css">
+    <link rel="stylesheet" href="../css/login_styles.css">
     <title>Login</title>
 </head>
 <body>
