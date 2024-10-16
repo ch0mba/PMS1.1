@@ -1,65 +1,62 @@
-<?php
-session_start();
- include 'connection.php';
-
- include '../templates/header.php';
-
- try {
-     // Fetch total tonnage
-     $tonnage_query = $conn->query("SELECT SUM(total_weight) AS total_tonnage FROM production_jobs WHERE status='complete'");
-     if ($tonnage_query) {
-         $tonnage = $tonnage_query->fetch_assoc();  // MySQLi uses fetch_assoc() instead of fetch()
-         echo "Total Tonnage: " . ($tonnage['total_tonnage'] ?? 'No data found') . " KG<br>";
-     } else {
-         throw new Exception("Error fetching total tonnage: " . $conn->error);
-     }
- 
-     // Fetch number of production jobs
-     $production_count_query = $conn->query("SELECT COUNT(*) AS production_count FROM production_jobs");
-     if ($production_count_query) {
-         $production_count = $production_count_query->fetch_assoc();
-         echo "Production Jobs: " . ($production_count['production_count'] ?? 'No data found') . "<br>";
-     } else {
-         throw new Exception("Error fetching production count: " . $conn->error);
-     }
- 
-     // Fetch number of running machines
-     $running_machines_query = $conn->query("SELECT COUNT(*) AS running_machines FROM machines WHERE status='running'");
-     if ($running_machines_query) {
-         $running_machines = $running_machines_query->fetch_assoc();
-         echo "Running Machines: " . ($running_machines['running_machines'] ?? 'No running machines') . "<br>";
-     } else {
-         throw new Exception("Error fetching running machines: " . $conn->error);
-     }
- 
-     // Fetch number of shifts
-     $shifts_query = $conn->query("SELECT COUNT(*) AS shift_count FROM shifts");
-     if ($shifts_query) {
-         $shift_count = $shifts_query->fetch_assoc();
-         echo "Number of Shifts: " . ($shift_count['shift_count'] ?? 'No shifts scheduled') . "<br>";
-     } else {
-         throw new Exception("Error fetching shift count: " . $conn->error);
-     }
- 
- } catch (Exception $e) {
-     echo "An error occurred: " . $e->getMessage();
- }
-
-?>
 <!DOCTYPE html>
+<?php include '../api/fetch.php' ?>
 <html>
    <head>
    <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="css/home.css">
+    <link rel="stylesheet" href="../css/home.css">
     <title>Dashboard</title>
    </head>
 
 
 
    <body>
-    <div class="dashboard-stats">
+
+   <div class="navbar">
+    <!-- logo -->
+        <div class="logo">
+            <img src="../images/logo.png" alt="Company Logo">
+
+        </div>
+
+        <ul>
+        <!-- home link -->
+        <li> <a href="dashboard.php">Home</a> </li>
+
+        <!-- job shedule link -->
+        <li><a href="schedule.php">Job Shedule</a></li>
+
+        <!-- job trackng link -->
+        <li><a href="track_job.php">Job Tracking</a></li>
+
+        <!-- Report-->
+        <li>
+            <a herf="">Reports</a>
+            <ul class="">
+                <li><a href="production_report.php">Production Report</a></li>
+                <li><a href="Electrictyconsumption_report.php">Electricty Consumption</a></li>
+                <li><a href="machine_report.php">Machine Report</a></li>
+                <li><a href="scrap.php">Scrap Report</a></li>
+            </ul>
+          
+        </li>
+        <!-- Setup -->
+    `   <li>
+            <a herf="">Setup</a>
+            <ul class="links">
+                <li><a href="machine_setup.php">Machine Setup</a></li>
+                <li><a href="product_setup.php">Product Setup</a></li>
+                <li><a href="supervisor_setup.php">Supervisor Setup</a></li>
+                <li><a href="shift_setup.php">Shit Setup</a></li>
+            </ul>
+          
+        </li>
+
+        
+   </div>
+
+    <div class="main-content">
         <p>Total Tonnage: <?=$tonnage['total_tonnage']; ?> KG</p>
         <p>Production Jobs: <?=$production_count['production_count']; ?></p>
         <p>running_machines: <?=$running_machines['running_machines']; ?></p>
@@ -71,4 +68,3 @@ session_start();
 
    </body>
 </html>
-<?php include '../templates/footer.php';?>

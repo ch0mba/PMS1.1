@@ -1,5 +1,5 @@
 <?php
-include '../pages/connection.php';
+include 'connection.php';
 
 // Adding new data (existing functionality)
 if (isset($_POST['add_machine'])) {
@@ -7,7 +7,7 @@ if (isset($_POST['add_machine'])) {
     $sql = "INSERT INTO machines (machine_number) VALUES (?)";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param('s',$machine_number);
-    header('Location: ../pages/machinesetup.php');
+    header('Location: ../pages/machine_setup.php');
     if ($stmt->execute()) {
         echo "New record created successfully";
     } else {
@@ -17,7 +17,7 @@ if (isset($_POST['add_machine'])) {
     exit();
 }
 // Updating existing data
-if (isset($_POST['update_machine'])) {
+/*if (isset($_POST['update_machine'])) {
     $machine_id = $_POST['machine_id'];
     $machine_name = $_POST['machine_name'];
     $sql = "UPDATE machines SET machine_number = ? WHERE id = ? ";
@@ -25,6 +25,6 @@ if (isset($_POST['update_machine'])) {
     $stmt->execute();
     header('Location: ../pages/setup.php');
     exit();
-}
+}*/
 
 ?>
