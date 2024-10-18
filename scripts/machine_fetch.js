@@ -1,7 +1,7 @@
 fetch('../api/machine_query_data.php')
     .then(response => response.json()) // Parse the JSON response
     .then(data => {
-        const tableBody = document.getElementById('table-body');
+        const tableBody = document.getElementById('table_machine-body');
         let tableRows = '';
 
         // Loop through the fetched data and create table rows
@@ -11,7 +11,7 @@ fetch('../api/machine_query_data.php')
                     <td>${row.machine_number}</td>
                     <td>${row.status}</td>
                     <td>
-                    <button onclick="updateRow(${row.id})">Update</button>
+                    <button onclick="updateRow(${row.id},'${row.machine_number}','${row.status}')">Update</button>
                     </td>
                     <td>
                     <button onclick="deleteRow(${row.id})">Delete</button>
@@ -25,8 +25,13 @@ fetch('../api/machine_query_data.php')
     })
     .catch(error => console.error('Error fetching data:', error));
 
-    function updateRow(id, machineNumber, status) {
-        const newMachineNumber = prompt(`Update Machine Number (Current: ${machineNumber})`, machineNumber);
+
+
+    function updateRow(id, machine_number, status) {
+        console.log(id,machine_number,status); // Debug log
+        machine_number = decodeURIComponent(machine_number);
+        status = decodeURIComponent(status);
+        const newMachineNumber = prompt(`Update Machine Number (Current: ${machine_number})`, machine_number);
         const newStatus = prompt(`Update Machine Status (Current: ${status})`, status);
     
         // Check if both values are not empty

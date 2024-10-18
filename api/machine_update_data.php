@@ -13,7 +13,7 @@ $status = $data['status'];
 //Validate input (this is important for security)
 if (!empty($id) && !empty($machine_number) && !empty($status)) {
     // Prepare the SQL query for updating the machine data
-    $sql = "UPDATE machines SET machine_number = ? WHERE id = ?";
+    $sql = "UPDATE machines SET machine_number = ?, status = ? WHERE id = ?";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param('ssi', $machine_number, $status, $id);
     // 'ssi' stands for two strings (machine_number, status) and on integer (id)
@@ -27,7 +27,7 @@ if (!empty($id) && !empty($machine_number) && !empty($status)) {
 
     $stmt->close();
 } else {
-    echo json_encode(["success" => false, "erro" => "invalid input"]);
+    echo json_encode(["success" => false, "error" => "invalid input"]);
 }
 
 $conn->close();
