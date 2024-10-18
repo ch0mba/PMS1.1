@@ -6,7 +6,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../css/w3.css">
     <title>Machine Setup</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        
+        table, th, td {
+            border: 1px solid black;
+        }
+
+        th, td {
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+
 </head>
+<?php
+    include '../api/connection.php';
+    ?>
 <body>
     <h1>Machine Setup</h1>
 
@@ -20,40 +44,25 @@
         </form>
     </div>
 
-    <?php
-    include 'connection.php';
-
-    // Query to fetch machine data
-    $query = "SELECT machine_number, status FROM machines";
-    $result = $conn->query($query);
-
-    if ($result === false) {
-        echo "Error in executing query: ", $conn->error;
-        exit;
-    }
-
-    // Display machine data in a table
-    echo "<table border='1'>
-        <tr>
-            <th>Machine Number</th>
-            <th>Status</th>
-        </tr>";
-
-    // Loop through the results and display them in the table
-    while ($row = $result->fetch_assoc()) {
-        echo "<tr>";
-        echo "<td>" . $row['machine_number'] . "</td>";
-        echo "<td>" . $row['status'] . "</td>";
-
-    }
-
-    echo "</table>";
-
-    // Free the result set
-    $result->free();
     
-    // Close the database connection
-    $conn->close();
-    ?>
+    <h1>Machine Query</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Machine Name</th>
+                <th>Status</th>
+                <th>update</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+        <tbody id="table-body">
+            <!-- Rows will be populated here -->
+           
+        </tbody>
+    </table>
+   
 </body>
+ <!-- Link to external JavaScript file -->
+ <script src="../scripts/machine_fetch.js"></script>
+    <script src="../scripts/machine_delete.js"></script>
 </html>
