@@ -31,6 +31,7 @@ fetch('../api/machine_query_data.php')
         console.log(id,machine_number,status); // Debug log
         machine_number = decodeURIComponent(machine_number);
         status = decodeURIComponent(status);
+        
         const newMachineNumber = prompt(`Update Machine Number (Current: ${machine_number})`, machine_number);
         const newStatus = prompt(`Update Machine Status (Current: ${status})`, status);
     
