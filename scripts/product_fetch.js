@@ -37,7 +37,7 @@ fetch('../api/product_query.php')
         document.getElementById('overlay').style.display = 'block';
     
         // Populate form fields with current values
-        document.getElementById('product-id').value = id;
+        document.getElementById('product_id').value = id;
         document.getElementById('stockcode').value = decodeURIComponent(stockcode);
         document.getElementById('actual_weight').value = decodeURIComponent(actual_weight);
         document.getElementById('weight_per_meter').value = decodeURIComponent(weight_per_meter);
@@ -46,12 +46,12 @@ fetch('../api/product_query.php')
     }
     
     function closePopup() {
-        document.getElementById('update-form').style.display = 'none';
+        document.getElementById('update_form').style.display = 'none';
         document.getElementById('overlay').style.display = 'none';
     }
     
     function submitUpdate() {
-        const id = document.getElementById('product-id').value;
+        const id = document.getElementById('product_id').value;
         const stockcode = document.getElementById('stockcode').value;
         const actual_weight = document.getElementById('actual_weight').value;
         const weight_per_meter = document.getElementById('weight_per_meter').value;

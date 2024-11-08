@@ -78,9 +78,9 @@
             <div class="box">
                 <p>Running machines: <?=$running_machines['running_machines']; ?></p>
             </div>
-            
+
             <div class ="box">
-            <p>Number of shifts: <?=$shift_count['shift_count']; ?></p>
+            <p>Electricity in KWh: <?=$shift_count['shift_count']; ?></p>
             </div>
        </div>
 

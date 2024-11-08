@@ -86,5 +86,5 @@
 </body>
  <!-- Link to external JavaScript file -->
  <script src="../scripts/product_fetch.js"></script>
-    <script src="../scripts/machine_delete.js"></script>
+    <script src="../scripts/product_delete.js"></script>
 </html>
