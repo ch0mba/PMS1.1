@@ -15,8 +15,8 @@ fetch('../api/product_query.php')
                     <td>${row.pressure_rate}</td>
                     <td>
                     <button onclick="updateRow(${row.id},'${row.stockcode}','${row.actual_weight}','${row.weight_per_meter}','${row.length}','${row.pressure_rate}')">Update</button>
-                    </td>
-                    <td>
+                    
+                   
                     <button onclick="deleteRow(${row.id})">Delete</button>
                     </td>
                 </tr>
