@@ -1,0 +1,16 @@
+/* Add this to your home.css file or in a <style> tag within the <head> */
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 250px; /* Adjust width as needed */
+    height: 100vh; /* Full height */
+    background-color: #343a40; /* Dark background color */
+    padding-top: 20px;
+    z-index: 1000; /* Make sure it stays above other content */
+}
+
+.main-content {
+    margin-left: 250px; /* This should be the same width as your sidebar */
+    padding: 20px;
+}
