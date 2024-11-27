@@ -114,16 +114,36 @@ if (isset($_SESSION['success_message'])) {
                     <div class="card shadow p-4 mb-5">
                         <form action="../api/track_production.php" method="POST">
                             <div class="mb-3">
-                                <label for="job_id" class="form-label">Select Job:</label>
+                            <label for="job_id" class="form-label">Select Job:</label>
                                 <select name="job_id" id="job_id" class="form-select" required>
                                     <option value="">-- Select Job --</option>
                                     <?php
-                                        $jobs = $conn->query("SELECT id FROM production_jobs WHERE status='in_progress'");
+                                        // Query to fetch job and product details
+                                        $query = "
+                                            SELECT 
+                                                pj.id AS id,
+                                                pj.job_number,
+                                                inv.product_description AS products
+                                            FROM 
+                                                production_jobs pj
+                                            JOIN 
+                                                inventorys inv
+                                            ON 
+                                                pj.product = inv.id -- Adjust this to match your schema
+                                            WHERE 
+                                                pj.status = 'in_progress'
+                                        ";
+
+                                        // Execute the query
+                                        $jobs = $conn->query($query);
+
+                                        // Loop through the results and create option elements
                                         while ($job = $jobs->fetch_assoc()) {
-                                            echo "<option value='{$job['id']}'>Job {$job['id']}</option>";
+                                            echo "<option value='{$job['id']}'>Job {$job['id']} - {$job['products']}</option>";
                                         }
                                     ?>
                                 </select>
+
                             </div>
 
                             <div class="mb-3">
@@ -147,18 +167,41 @@ if (isset($_SESSION['success_message'])) {
                     <!-- Section for displaying the logged production items -->
                     <h3 class="text-center mb-4">Logged Production Items</h3>
                     <div class="accordion" id="jobsAccordion">
-                        <?php
-                            $jobs = $conn->query("SELECT id, qty_make FROM production_jobs WHERE status='in_progress'");
+                    <?php
+                            // Fetch job details, including job_id, quantity, and product description
+                            $query = "
+                                SELECT 
+                                    pj.id AS job_id,
+                                    pj.job_number,
+                                    pj.qty_make,
+                                    inv.product_description AS product
+                                FROM 
+                                    production_jobs pj
+                                JOIN 
+                                    inventorys inv
+                                ON 
+                                    pj.product = inv.id -- Adjust this to match your schema
+                                WHERE 
+                                    pj.status = 'in_progress'
+                            ";
+
+                            // Execute the query
+                            $jobs = $conn->query($query);
+
+                            // Loop through jobs to generate accordions
                             while ($job = $jobs->fetch_assoc()) {
-                                $job_id = $job['id'];
+                                $job_id = $job['job_id'];
                                 $qty_make = $job['qty_make'];
+                                $product = $job['product']; // Fetch the product description
                         ?>
                             <div class="accordion-item">
-                                <h2 class="accordion-header" id="heading<?php echo $job_id; ?>">
-                                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse<?php echo $job_id; ?>" aria-expanded="true" aria-controls="collapse<?php echo $job_id; ?>">
-                                        Job #<?php echo $job_id; ?> (Quantity: <?php echo $qty_make; ?>)
-                                    </button>
-                                </h2>
+                            <h2 class="accordion-header" id="heading<?php echo $job_id; ?>">
+                                <button class="accordion-button" type="button" data-bs-toggle="collapse" 
+                                        data-bs-target="#collapse<?php echo $job_id; ?>" 
+                                        aria-expanded="true" aria-controls="collapse<?php echo $job_id; ?>">
+                                    Job #<?php echo $job_id; ?> (Quantity: <?php echo $qty_make; ?>, Product: <?php echo $product; ?>)
+                                </button>
+                            </h2>
                                 <div id="collapse<?php echo $job_id; ?>" class="accordion-collapse collapse" aria-labelledby="heading<?php echo $job_id; ?>" data-bs-parent="#jobsAccordion">
                                     <div class="accordion-body">
                                         <table class="table table-striped table-bordered text-center">
@@ -191,12 +234,10 @@ if (isset($_SESSION['success_message'])) {
                                         <!-- End Job Form (only appears once per job) -->
                                         <form action="../api/end_job.php" method="POST">
                                             <input type="hidden" name="job_id" value="<?php echo $job_id; ?>">
-
                                             <div class="mb-3">
                                                 <label for="total_weight" class="form-label">Total Weight (KG):</label>
-                                                <input type="number" name="total_weight" id="total_weight" class="form-control" required>
+                                                <input type="number" name="total_weight" id="total_weight" class="form-control" value="0" readonly>
                                             </div>
-
                                             <div class="mb-3">
                                                 <label for="manpower_used" class="form-label">Manpower Used:</label>
                                                 <input type="number" name="manpower_used" id="manpower_used" class="form-control" required>
@@ -227,5 +268,21 @@ if (isset($_SESSION['success_message'])) {
 
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"></script>
+    <script>
+     
+        const logItemForm = document.querySelector('form');
+        logItemForm.addEventListener('submit', async (event) => {
+            event.preventDefault();
+            const formData = new FormData(logItemForm);
+            const response = await fetch(logItemForm.action, { method: 'POST', body: formData });
+            const result = await response.json();
+            if (result.success) {
+                alert(result.message);
+            } else {
+                alert(result.message);
+            }
+        });
+    </script>
+</script>
 </body>
 </html>

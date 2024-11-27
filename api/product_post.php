@@ -8,10 +8,11 @@ if (isset($_POST['add_product'])) {
     $weight_per_meter = $_POST['weight_per_meter'];
     $length = $_POST['length'];
     $pressure_rate = $_POST['pressure_rate'];
+    $category_id = $_POST['category_id'];
 
-    $sql = "INSERT INTO products (stockcode,actual_weight,weight_per_meter,length,pressure_rate) VALUES (?,?,?,?,?)";
+    $sql = "INSERT INTO products (stockcode,actual_weight,weight_per_meter,length,pressure_rate,  category_id) VALUES (?,?,?,?,?,?)";
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param('sdddi',$stockcode,$actual_weight,$weight_per_meter,$length,$pressure_rate);
+    $stmt->bind_param('sdddii',$stockcode,$actual_weight,$weight_per_meter,$length,$pressure_rate,  $category_id);
     header('Location: ../pages/product_setup.php');
     if ($stmt->execute()) {
         echo "New record created successfully";
@@ -20,4 +21,16 @@ if (isset($_POST['add_product'])) {
     }
     $stmt->close();
     exit();
+}
+
+
+function getCategories($conn) {
+    $query = "SELECT id, category_name FROM categories";
+    $result = $conn->query($query);
+    
+    if ($result && $result->num_rows > 0) {
+        return $result;
+    } else {
+        return [];
+    }
 }

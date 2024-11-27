@@ -43,7 +43,7 @@
                     <a href="#">Setup <span class="submenu-toggle">+</span></a>
                     <ul>
                         <li><a href="machine_setup.php">Machine Setup</a></li>
-                        <li><a href="product_setup.php">Product Setup</a></li>
+                        <li><a href="inventory.php">Product Setup</a></li>
                         <li><a href="supervisor_setup.php">Supervisor Setup</a></li>
                         <li><a href="shift_setup.php">Shift Setup</a></li>
                     </ul>
