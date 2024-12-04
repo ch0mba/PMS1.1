@@ -6,7 +6,7 @@ session_start();
 
  try {
      // Fetch total tonnage
-     $tonnage_query = $conn->query("SELECT SUM(total_weight) AS total_tonnage FROM production_jobs WHERE status='complete'");
+     $tonnage_query = $conn->query("SELECT SUM(total_weight) AS total_tonnage FROM production_jobs WHERE status='completed'");
      if ($tonnage_query) {
          $tonnage = $tonnage_query->fetch_assoc();  // MySQLi uses fetch_assoc() instead of fetch()
          echo "Total Tonnage: " . ($tonnage['total_tonnage'] ?? 'No data found') . " KG<br>";

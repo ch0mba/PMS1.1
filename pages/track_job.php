@@ -19,63 +19,10 @@ if (isset($_SESSION['success_message'])) {
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../css/home.css">
+    <link rel="stylesheet" href="../css/track_job.css">
     <title>Track Production Job</title>
 
-    <style>
-        /* Sidebar styles */
-        .bg-dark {
-            position: fixed;
-            top: 0;
-            bottom: 0;
-            left: 0;
-            width: 250px; /* Sidebar width */
-            overflow-y: auto; /* Enable vertical scrolling for sidebar */
-            z-index: 100; /* Keep the sidebar on top */
-            padding-top: 20px; /* Optional: Adds padding on top */
-        }
-
-        /* Adjust the main content area to account for sidebar */
-        .container-fluid {
-            margin-left: 250px; /* Offset content to the right of the sidebar */
-        }
-
-        /* Main content */
-        .col-md-10 {
-            overflow-y: auto;
-            padding-left: 30px; /* Adjust padding as needed */
-        }
-
-        /* Center top messages */
-        .message-box {
-            position: absolute;
-            top: 20px;
-            left: 60%;
-            transform: translateX(-50%);
-            width: 50%;
-            z-index: 200;
-        }
-
-        /* Adjust for sticky sidebar scrolling */
-        .nav-link {
-            padding: 12px 16px;
-        }
-
-        /* Form for ending a job */
-        .end-job-form {
-            display: none;
-        }
-
-        .accordion-button::after {
-            content: "\f0e7"; /* Unicode for a down arrow */
-            font-family: "FontAwesome";
-        }
-
-        .accordion-button.collapsed::after {
-            content: "\f0e8"; /* Unicode for an up arrow */
-            font-family: "FontAwesome";
-        }
-    </style>
+    
 </head>
 <body>
     <?php 

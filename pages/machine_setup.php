@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/machine_setup.css">
     <title>Machine Setup</title>
 </head>
 
@@ -23,7 +23,7 @@
                         <a class="nav-link active text-white" aria-current="page" href="../pages/dashboard.php">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-white" href="../pages/schedule.php">Job Tracking</a>
+                        <a class="nav-link text-white" href="../pages/schedule.php">Job Schedule</a>
                     </li>
                 </ul>
             </div>
@@ -47,7 +47,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-white" href="../pages/schedule.php">
+                        <a class="nav-link text-white" href="../pages/track_job.php">
                             <i class="bi bi-calendar-check"></i> Job Tracking
                         </a>
                     </li>

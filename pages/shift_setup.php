@@ -1,41 +1,4 @@
-<?php
-// Include the database connection file
-include '../api/connection.php';
-
-// Check if the form has been submitted
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['add_shift'])) {
-    // Retrieve form data
-    $shift_number = $_POST['shift_number'];
-    $shift_date = $_POST['shift_date'];
-    $created_at = date("Y-m-d H:i:s"); // Automatically set the current date and time
-
-    // Prepare and execute the SQL query to insert data into the database
-    $sql = "INSERT INTO shifts (shift_number, shift_date, created_at) VALUES (?, ?, ?)";
-    $stmt = $conn->prepare($sql);
-
-    if ($stmt) {
-        $stmt->bind_param("sss", $shift_number, $shift_date, $created_at);
-
-        if ($stmt->execute()) {
-            echo "<script>alert('Shift added successfully');</script>";
-        } else {
-            echo "<script>alert('Error adding shift: " . $stmt->error . "');</script>";
-        }
-
-        $stmt->close();
-    } else {
-        echo "<script>alert('Failed to prepare the SQL statement');</script>";
-    }
-
-    // Close the database connection
-    $conn->close();
-
-    // Redirect to the same page to prevent form resubmission
-    header("Location: shift_setup.php");
-    exit();
-}
-?>
-
+<?php include '../api/shift.php' ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -47,7 +10,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['add_shift'])) {
     <title>Shift Setup</title>
 </head>
 <body>
-
     <nav class="navbar navbar-expand-lg bg-body-tertiary">
         <div class="container-fluid">
             <a class="navbar-brand" href="dashboard.php"><h1>SHIFT SETUP</h1></a>
@@ -60,12 +22,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['add_shift'])) {
                         <a class="nav-link active" aria-current="page" href="../pages/dashboard.php">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="../pages/schedule.php">Shift Tracking</a>
+                        <a class="nav-link active" aria-current="page" href="../pages/schedule.php">Job Tracking</a>
                     </li>
                 </ul>
             </div>
         </div>
     </nav>
+
+    <!-- Display Messages -->
+    <div class="container mt-3">
+        <?php if (!empty($message)): ?>
+            <div id="alert-message" class="alert alert-<?= $message_type ?> alert-dismissible fade show" role="alert">
+                <?= htmlspecialchars($message) ?>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        <?php endif; ?>
+    </div>
 
     <!-- Form for adding shifts -->
     <div class="container mt-5">
