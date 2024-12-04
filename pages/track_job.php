@@ -232,30 +232,30 @@ if (isset($_SESSION['success_message'])) {
                                         </table>
 
                                         <!-- End Job Form (only appears once per job) -->
-                                        <form action="../api/end_job.php" method="POST">
-                                            <input type="hidden" name="job_id" value="<?php echo $job_id; ?>">
-                                            <div class="mb-3">
-                                                <label for="total_weight" class="form-label">Total Weight (KG):</label>
-                                                <input type="number" name="total_weight" id="total_weight" class="form-control" value="0" readonly>
-                                            </div>
-                                            <div class="mb-3">
-                                                <label for="manpower_used" class="form-label">Manpower Used:</label>
-                                                <input type="number" name="manpower_used" id="manpower_used" class="form-control" required>
-                                            </div>
+                                            <form action="../api/end_job.php" method="POST">
+                                                <input type="hidden" name="job_id" value="<?php echo $job_id; ?>">
+                                                <div class="mb-3">
+                                                    <label for="total_weight" class="form-label">Total Weight (KG):</label>
+                                                    <input type="number" name="total_weight" id="total_weight" class="form-control" value="0" readonly>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="manpower_used" class="form-label">Manpower Used:</label>
+                                                    <input type="number" name="manpower_used" id="manpower_used" class="form-control" required>
+                                                </div>
 
-                                            <div class="mb-3">
-                                                <label for="electricity_used" class="form-label">Electricity Used (KW):</label>
-                                                <input type="number" name="electricity_used" id="electricity_used" class="form-control" required>
-                                            </div>
+                                                <div class="mb-3">
+                                                    <label for="electricity_used" class="form-label">Electricity Used (KW):</label>
+                                                    <input type="number" name="electricity_used" id="electricity_used" class="form-control" required>
+                                                </div>
 
-                                            
+                                                
 
-                                            <div class="d-flex justify-content-center">
-                                                <button type="submit" class="btn btn-success">
-                                                    <i class="bi bi-check-circle"></i> End Job
-                                                </button>
-                                            </div>
-                                        </form>
+                                                <div class="d-flex justify-content-center">
+                                                    <button type="submit" class="btn btn-success">
+                                                        <i class="bi bi-check-circle"></i> End Job
+                                                    </button>
+                                                </div>
+                                            </form>
                                     </div>
                                 </div>
                             </div>
@@ -269,19 +269,100 @@ if (isset($_SESSION['success_message'])) {
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"></script>
     <script>
-     
-        const logItemForm = document.querySelector('form');
-        logItemForm.addEventListener('submit', async (event) => {
-            event.preventDefault();
-            const formData = new FormData(logItemForm);
-            const response = await fetch(logItemForm.action, { method: 'POST', body: formData });
-            const result = await response.json();
-            if (result.success) {
-                alert(result.message);
-            } else {
-                alert(result.message);
-            }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const jobAccordions = document.querySelectorAll('.accordion-item');
+
+            jobAccordions.forEach((accordion) => {
+                const totalWeightField = accordion.querySelector('input[name="total_weight"]');
+                const rows = accordion.querySelectorAll('tbody tr');
+
+                let totalWeight = 0;
+
+                rows.forEach((row) => {
+                    const weightCell = row.querySelector('td:nth-child(2)'); // Adjust column index for weight
+                    if (weightCell) {
+                        const weight = parseFloat(weightCell.textContent.trim());
+                        if (!isNaN(weight)) {
+                            totalWeight += weight;
+                        }
+                    }
+                });
+
+                if (totalWeightField) {
+                    totalWeightField.value = totalWeight.toFixed(2); // Format total weight to 2 decimal places
+                }                                                                                               
+            });
         });
+
+        
+        const logItemForm = document.querySelector('form');
+                logItemForm.addEventListener('submit', async (event) => {
+                    event.preventDefault();
+                    const formData = new FormData(logItemForm);
+                    try {
+                        const response = await fetch(logItemForm.action, { method: 'POST', body: formData });
+                        const result = await response.json();
+                        const alertBox = document.createElement('div');
+                        alertBox.className = `alert alert-${result.success ? 'success' : 'danger'} message-box`;
+                        alertBox.innerText = result.message;
+                        document.body.appendChild(alertBox);
+
+                        setTimeout(() => alertBox.remove(), 5000); // Remove message after 5 seconds
+                    } catch (error) {
+                        alert('Success.');
+                    }
+                });
+                
+                
+                document.querySelector('form').addEventListener('submit', async (event) => {
+    event.preventDefault(); // Prevent default form submission
+
+    const form = event.target;
+    const formData = new FormData(form);
+    const jobId = document.getElementById('job_id').value;
+
+    try {
+        const response = await fetch(form.action, { method: 'POST', body: formData });
+        const result = await response.json();
+
+        if (result.success) {
+            // Create a new row for the logged item
+            const tableBody = document.querySelector(`#collapse${jobId} tbody`);
+            const newRow = document.createElement('tr');
+            newRow.innerHTML = `
+                <td>${result.item_number}</td>
+                <td>${result.item_weight}</td>
+                <td>${result.created_at}</td>
+            `;
+            tableBody.appendChild(newRow);
+
+            // Reset the form inputs
+            form.reset();
+
+            // Display success message
+            displayMessage('success', result.message);
+        } else {
+            // Display error message
+            displayMessage('danger', result.message);
+        }
+    } catch (error) {
+        displayMessage('danger', 'An error occurred while logging the item.');
+    }
+});
+
+// Function to display messages dynamically
+function displayMessage(type, message) {
+    const alertBox = document.createElement('div');
+    alertBox.className = `alert alert-${type} message-box`;
+    alertBox.innerText = message;
+    document.body.appendChild(alertBox);
+
+    // Remove the alert after 5 seconds
+    setTimeout(() => alertBox.remove(), 5000);
+}
+
+
     </script>
 </script>
 </body>
