@@ -46,6 +46,7 @@
                         <li><a href="inventory.php">Product Setup</a></li>
                         <li><a href="supervisor_setup.php">Supervisor Setup</a></li>
                         <li><a href="shift_setup.php">Shift Setup</a></li>
+                        <li><a href="material_setup.php">Raw Materials Setup</a></li>
                     </ul>
                 </li>
             </ul>

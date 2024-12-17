@@ -1,5 +1,5 @@
 <?php
-include '../api/inventory_api.php.php';
+include '../api/inventory_api.php';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -27,6 +27,7 @@ include '../api/inventory_api.php.php';
     <!-- Search Bar -->
     <div class="form-group mt-3" style="width: 300px; float: right;">
       <label for="search-bar">Search by Stock Code</label>
+          
       <div class="input-group">
         <input type="text" class="form-control" id="search-bar" placeholder="Enter stock code">
         <div class="input-group-append">

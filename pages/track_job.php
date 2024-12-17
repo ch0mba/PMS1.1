@@ -186,7 +186,7 @@ if (isset($_SESSION['success_message'])) {
                                                     <input type="number" name="total_weight" id="total_weight" class="form-control" value="0" readonly>
                                                 </div>
                                                 <div class="mb-3">
-                                                    <label for="manpower_used" class="form-label">Manpower Used:</label>
+                                                    <label for="manpower_used" class="form-label">Man Hours:</label>
                                                     <input type="number" name="manpower_used" id="manpower_used" class="form-control" required>
                                                 </div>
 
